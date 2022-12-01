@@ -1,26 +1,30 @@
-import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Button, Checkbox, Form, Input } from "antd";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import {
-  HiOutlineIdentification,
-  HiOutlineLockClosed,
-  HiOutlineUser,
-} from "react-icons/hi2";
-import Transitions from "../../shared/utils/Transitions";
+import { useNavigate } from "react-router-dom";
+import { Button, Checkbox, Form, Input, message } from "antd";
+import { HiOutlineLockClosed, HiOutlineUser } from "react-icons/hi2";
+import Transitions from "../shared/utils/Transitions";
+import { GlobalContext } from "../context/context";
+import colors from "../shared/utils/colors";
 
-const Auth = () => {
-  const { authId } = useParams();
+const Login = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const { setLoginDetails } = useContext(GlobalContext);
 
   const onFinish = (values) => {
     console.log("Success:", values);
 
-    
-
-    navigate(`/${authId}-portal`);
-    form.resetFields();
+    if (values.username === "admin" && values.password === "test123") {
+      setLoginDetails({
+        username: values.username,
+        password: values.password,
+      });
+      form.resetFields();
+      navigate("/");
+    } else {
+      message.error("Incorrect login details. Try again!");
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -28,14 +32,18 @@ const Auth = () => {
 
   return (
     <Transitions>
-      <AuthWrapper>
+      <LoginWrapper>
         <FormWrapper>
           <Titlebar>
             <img src="/images/logo-512.png" alt="school-badge" />
-            <h3>{authId.toLocaleUpperCase()} PORTAL</h3>
+            <h3>
+              <span>Skyline</span>
+              &nbsp;
+              <span style={{ color: `${colors.accent}` }}>College</span>
+            </h3>
           </Titlebar>
           <Form
-            name={`${authId} form`}
+            name={`login form`}
             form={form}
             initialValues={{
               remember: true,
@@ -45,7 +53,6 @@ const Auth = () => {
             autoComplete="off"
           >
             <Form.Item
-              style={{ margin: "15px 0" }}
               name="username"
               rules={[
                 {
@@ -58,36 +65,11 @@ const Auth = () => {
             </Form.Item>
 
             <Form.Item
-              style={{ margin: "15px 0" }}
-              name="userID"
-              rules={[
-                {
-                  required: true,
-                  message: `Invalid ${authId
-                    .slice(0, 1)
-                    .toLocaleUpperCase()}${authId
-                    .slice(1)
-                    .toLocaleLowerCase()} ID!`,
-                  min: 10,
-                },
-              ]}
-            >
-              <Input
-                placeholder={`${authId.slice(0, 1).toLocaleUpperCase()}${authId
-                  .slice(1)
-                  .toLocaleLowerCase()} ID`}
-                prefix={<HiOutlineIdentification />}
-              />
-            </Form.Item>
-
-            <Form.Item
-              style={{ margin: "15px 0" }}
               name="password"
               rules={[
                 {
                   required: true,
                   message: "Invalid password!",
-                  min: 8,
                 },
               ]}
             >
@@ -107,37 +89,18 @@ const Auth = () => {
               </Button>
             </Form.Item>
           </Form>
-          <a href="/">Fogot password?</a>
         </FormWrapper>
-      </AuthWrapper>
+      </LoginWrapper>
     </Transitions>
   );
 };
 
-const AuthWrapper = styled.div`
+const LoginWrapper = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-const Titlebar = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 15px 0;
-
-  h3 {
-    text-align: center;
-    margin: 5px 0;
-  }
-
-  img {
-    width: 70px;
-    height: 70px;
-  }
 `;
 
 const FormWrapper = styled.div`
@@ -173,4 +136,23 @@ const FormWrapper = styled.div`
   }
 `;
 
-export default Auth;
+const Titlebar = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 15px 0;
+
+  h3 {
+    text-align: center;
+    margin: 5px 0;
+    color: ${colors.primary};
+  }
+
+  img {
+    width: 70px;
+    height: 70px;
+  }
+`;
+
+export default Login;

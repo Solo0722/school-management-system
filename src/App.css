@@ -1,0 +1,36 @@
+:root {
+  --brand-color: #0f52ba;
+  --dark-color: #1e293b;
+  --mid-color: #b8bfc6;
+  --light-color: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Barlow", "PT Sans";
+}
+
+body {
+  /* font-family: "Barlow", "PT Sans", sans-serif;
+  overflow-x: hidden; */
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-image: #333;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #dfe3e7 20%, #9b9797 80%);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

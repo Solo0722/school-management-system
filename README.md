@@ -3,6 +3,10 @@
 This project is a school management system created for an imaginary junior high school called The Flash Educational  Complex. 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Login Details
+Username : admin
+Password: test123
+
 
 ## Project Structure
 

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 const animationConfig = {
-  initial: { opacity: 0, scale: 0.9 },
+  initial: { opacity: 0, scale: 1 },
   animate: { opacity: 1, scale: 1 },
   exit: { opacity: 0 },
 };
