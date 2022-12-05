@@ -8,30 +8,10 @@ Username : admin
 Password: test123
 
 
-## Project Structure
-
- └── src
-        ├── pages                  # houses all modules
-            ├── auth              # contains all the shared logics and components
-            └── ...
-        ├── components                    # global redux configurations. The store and reducers are created here.
-            ├── initialStore.ts      # initial store definition
-            ├── reducers.ts          # registration of redux reducers
-            └── store.ts             # creation of redux store
-        ├── components                    # global redux configurations. The store and reducers are created here.
-            ├── initialStore.ts      # initial store definition
-            ├── reducers.ts          # registration of redux reducers
-            └── store.ts             # creation of redux store
-        ├── themes
-            ├── colors.js
-        ├── App.tsx
-        └── Landing.tsx              # Landing page
-
-
 ## Core Libraries
 
 -   [ReactJS](https://reactjs.org): A JavaScript library for building user interfaces.
--   [Semantic UI React](https://react.semantic-ui.com/usage): Semantic UI is a development framework that helps create beautiful, responsive layouts.
+-   [Ant Design UI React](https://react.semantic-ui.com/usage): Semantic UI is a development framework that helps create beautiful, responsive layouts.
 -   [Styled Components](https://styled-components.com/docs/basics#installation): Utilising tagged template literals (a recent addition to JavaScript) and the power of CSS, styled-components allows you to write actual CSS code to style your components. It also removes the mapping between components and styles – using components as a low-level styling construct could not be easier!. 99.9% of our styles are in styled components.
 -   [React Context API]: An easy-to-use State Container for JS Apps.
 -   [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/): The @testing-library family of packages helps you test UI components in a user-centric way.
