@@ -1,11 +1,12 @@
-# TFEC School Management System
+# School Management System
 
-This project is a school management system created for an imaginary junior high school called The Flash Educational  Complex. 
+This project is a school management system created for an imaginary junior high school called Skyline College. 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Login Details
 Username : admin
 Password: test123
+
 
 ## Core Libraries
 
