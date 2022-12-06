@@ -5,14 +5,16 @@ import colors from "../../shared/utils/colors";
 import Transitions from "../../shared/utils/Transitions";
 import { HeadingWrapper } from "./dashboard";
 import { Table } from "antd";
-import { HiOutlinePencilSquare, HiOutlineTrash } from "react-icons/hi2";
+import {
+  HiOutlinePencilSquare,
+  HiOutlinePlus,
+  HiOutlineTrash,
+} from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { fetchStudents } from "../../shared/utils/axios";
 import moment from "moment";
-
-const onChange = (pagination, filters, sorter, extra) => {
-  console.log("params", pagination, filters, sorter, extra);
-};
+import Toolbar from "../../shared/components/Toolbar";
+import GenericTable from "../../shared/components/GenericTable";
 
 const Students = () => {
   const navigate = useNavigate();
@@ -46,7 +48,6 @@ const Students = () => {
         };
       })
     : [];
-
 
   const columns = [
     {
@@ -178,34 +179,28 @@ const Students = () => {
   return (
     <Transitions>
       <StudentsWrapper>
-        <HeadingWrapper className="heading">
-          <h3>All Students</h3>
-          <Button
-            type="primary"
-            onClick={() => navigate("/registration/student")}
-          >
-            New Student
-          </Button>
-        </HeadingWrapper>
+        <Toolbar
+          title="Students"
+          options={[
+            <Button
+              type="link"
+              onClick={() => navigate("/registration/student")}
+              icon={<HiOutlinePlus style={{ marginRight: 10 }} />}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              New Student
+            </Button>,
+          ]}
+        />
         <BodyWrapper>
-          <Table
-            rowClassName={(record, index) =>
-              index % 2 === 0 ? "table-row-light" : "table-row-dark"
-            }
+          <GenericTable
+            data={studentsData}
+            type={"student"}
             columns={columns}
-            dataSource={studentsData || []}
-            onChange={onChange}
-            scroll={{ x: 1000, y: 430 }}
-            className="table"
-            size="small"
-            pagination={{
-              pageSize: 10,
-            }}
-            onRow={(record, rowIndex) => {
-              return {
-                onClick: (event) => navigate(`/student/${record.key}`), // click row
-              };
-            }}
           />
         </BodyWrapper>
       </StudentsWrapper>
@@ -215,35 +210,12 @@ const Students = () => {
 
 const StudentsWrapper = styled.div`
   width: 100%;
-  /* overflow-y:hidden; */
-
-  /* .heading {
-    margin-bottom: 0px !important;
-  } */
 `;
 
 const BodyWrapper = styled.div`
   padding: 0 1rem;
   width: 100%;
-  height: calc(100vh - 70px);
-  /* overflow-y: hidden; */
   position: relative;
-
-  .table {
-    width: 100%;
-    height: calc(100vh - 70px);
-  }
-
-  /* .table tr:nth-child(2n) td {
-    background-color: #eee;
-  } */
-
-  .table-row-light {
-    background-color: #ffffff;
-  }
-  .table-row-dark {
-    background-color: #fbfbfb;
-  }
 `;
 
 export default Students;

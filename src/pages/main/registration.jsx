@@ -13,10 +13,11 @@ import React from "react";
 import { HiXCircle } from "react-icons/hi2";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { createStudent } from "../../shared/utils/axios";
+import { BodyContent } from "../../shared/components/Tabs/ProfileTab";
+import Toolbar from "../../shared/components/Toolbar";
+import { createStudent, createTeacher } from "../../shared/utils/axios";
 import colors from "../../shared/utils/colors";
 import Transitions from "../../shared/utils/Transitions";
-import { HeadingWrapper } from "./dashboard";
 
 const props = {
   name: "file",
@@ -30,11 +31,16 @@ const props = {
 const Registration = () => {
   const navigate = useNavigate();
   const { userType } = useParams();
-
   const [form] = Form.useForm();
 
   const createNewStudent = async (formData) => {
     await createStudent(formData)
+      .then(({ data }) => console.log(data))
+      .catch((err) => console.log(err));
+  };
+
+  const createNewTeacher = async (formData) => {
+    await createTeacher(formData)
       .then(({ data }) => console.log(data))
       .catch((err) => console.log(err));
   };
@@ -47,152 +53,130 @@ const Registration = () => {
       },
     };
 
-    createNewStudent(formData);
-    message.success("Student added to database successfully");
+    if (userType === "student") {
+      createNewStudent(formData);
+      message.success("Student added to database successfully");
+    } else if (userType === "staff") {
+      createNewTeacher(formData);
+      message.success("Teacher added to database successfully");
+    }
+
     form.resetFields();
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
+  const subjectOptions = [
+    { label: "Mathematics", value: "Mathematics" },
+    { label: "English", value: "English" },
+    { label: "Science", value: "Science" },
+    { label: "History", value: "History" },
+    { label: "ICT", value: "ICT" },
+    { label: "OWOP", value: "OWOP" },
+    { label: "RME", value: "RME" },
+    { label: "Twi", value: "Twi" },
+    { label: "French", value: "French" },
+  ];
+
   const PersonalDetailsSection = () => (
-    <>
-      <FormItem label="Full Name" style={{ width: "100%" }}>
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <FormItem
-            style={{ width: "48%", marginBottom: 0 }}
-            name="firstName"
-            requiredMark={null}
-            rules={[
-              {
-                required: true,
-                message: "Invalid first name!",
-              },
-            ]}
-          >
-            <Input placeholder="First" />
-          </FormItem>
-          <FormItem
-            name="lastName"
-            style={{ width: "48%", marginBottom: 0 }}
-            rules={[
-              {
-                required: true,
-                message: "Invalid last name!",
-              },
-            ]}
-          >
-            <Input placeholder="Last" />
-          </FormItem>
-        </div>
+    <BodyContent>
+      <FormItem
+        label="First Name"
+        name="firstName"
+        rules={[
+          {
+            required: true,
+            message: "Invalid first name!",
+          },
+        ]}
+      >
+        <Input />
+      </FormItem>
+      <FormItem
+        label="Last Name"
+        name="lastName"
+        rules={[
+          {
+            required: true,
+            message: "Invalid last name!",
+          },
+        ]}
+      >
+        <Input />
       </FormItem>
 
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
+      <FormItem
+        label="Date of birth"
+        name="dateOfBirth"
+        rules={[
+          {
+            required: true,
+            message: "Invalid date of birth!",
+          },
+        ]}
       >
-        <FormItem
-          label="Date of birth"
-          name="dateOfBirth"
-          rules={[
-            {
-              required: true,
-              message: "Invalid date of birth!",
-            },
-          ]}
-        >
-          <DatePicker style={{ width: "100%" }} />
-        </FormItem>
-        <FormItem
-          label="Gender"
-          name="gender"
-          rules={[
-            {
-              required: true,
-              message: "Invalid gender selected!",
-            },
-          ]}
-        >
-          <Select placeholder="Select gender">
-            <Select.Option value="male">Male</Select.Option>
-            <Select.Option value="female">Female</Select.Option>
-            <Select.Option value="other">Other</Select.Option>
-          </Select>
-        </FormItem>
-      </div>
-
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
+        <DatePicker style={{ width: "100%" }} />
+      </FormItem>
+      <FormItem
+        label="Gender"
+        name="gender"
+        rules={[
+          {
+            required: true,
+            message: "Invalid gender selected!",
+          },
+        ]}
       >
-        <FormItem
-          label="Address"
-          name="address"
-          rules={[
-            {
-              required: true,
-              message: "Please input your location!",
-            },
-          ]}
-        >
-          <Input placeholder="e.g Ejisu" />
-        </FormItem>
+        <Select>
+          <Select.Option value="male">Male</Select.Option>
+          <Select.Option value="female">Female</Select.Option>
+          <Select.Option value="other">Other</Select.Option>
+        </Select>
+      </FormItem>
 
-        <FormItem
-          label="Email"
-          name="email"
-          rules={[
-            {
-              required: true,
-              type: "email",
-              message: "Please input your email!",
-            },
-          ]}
-        >
-          <Input />
-        </FormItem>
-      </div>
-
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
+      <FormItem
+        label="Address"
+        name="address"
+        rules={[
+          {
+            required: true,
+            message: "Please input your location!",
+          },
+        ]}
       >
-        <FormItem
-          label="Phone number"
-          name="phoneNumber"
-          type=""
-          rules={[
-            {
-              required: true,
-              message: "Invalid phone number!",
-            },
-          ]}
-        >
-          <Input addonBefore="+233" />
-        </FormItem>
+        <Input />
+      </FormItem>
+
+      <FormItem
+        label="Email"
+        name="email"
+        rules={[
+          {
+            required: true,
+            type: "email",
+            message: "Please input your email!",
+          },
+        ]}
+      >
+        <Input />
+      </FormItem>
+
+      <FormItem
+        label="Phone number"
+        name="phoneNumber"
+        type=""
+        rules={[
+          {
+            required: true,
+            message: "Invalid phone number!",
+          },
+        ]}
+      >
+        <Input addonBefore="+233" />
+      </FormItem>
+
+      {userType === "student" ? (
         <FormItem
           label="Grade"
           name="grade"
@@ -203,13 +187,26 @@ const Registration = () => {
             },
           ]}
         >
-          <Select placeholder="Select grade">
+          <Select>
             <Select.Option value="grade-1">Grade 1</Select.Option>
             <Select.Option value="grade-2">Grade 2</Select.Option>
             <Select.Option value="grade-3">Grade 3</Select.Option>
           </Select>
         </FormItem>
-      </div>
+      ) : (
+        <FormItem
+          label="Subjects"
+          name="subjects"
+          rules={[
+            {
+              required: true,
+              message: "Invalid subjects selected!",
+            },
+          ]}
+        >
+          <Select mode={"tags"} options={subjectOptions} />
+        </FormItem>
+      )}
       <Form.Item
         label="Description"
         name="description"
@@ -223,104 +220,87 @@ const Registration = () => {
         rules={[
           {
             required: true,
-            message: "Invalid student image!",
+            message: "Invalid user image!",
           },
         ]}
         style={{ width: "100%" }}
       >
         <Upload listType="picture" maxCount={1} {...props}>
           <Button icon={<UploadOutlined />} block style={{ width: "100%" }}>
-            Click to upload student image
+            Click to upload image
           </Button>
         </Upload>
       </Form.Item>
-    </>
+    </BodyContent>
   );
 
   const ParentOrGuardianDetailsSection = () => (
-    <>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
+    <BodyContent>
+      <FormItem
+        label="Father's Name"
+        name="nameOfFather"
+        rules={[
+          {
+            required: true,
+            message: "Invalid  name!",
+          },
+        ]}
       >
-        <FormItem
-          label="Father's Name"
-          name="nameOfFather"
-          rules={[
-            {
-              required: true,
-              message: "Invalid  name!",
-            },
-          ]}
-        >
-          <Input />
-        </FormItem>
-        <FormItem
-          label="Phone Number"
-          name="phoneNumberOfFather"
-          rules={[
-            {
-              required: true,
-              message: "Invalid phone number!",
-            },
-          ]}
-        >
-          <Input addonBefore="+233" />
-        </FormItem>
-      </div>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
+        <Input />
+      </FormItem>
+      <FormItem
+        label="Phone Number"
+        name="phoneNumberOfFather"
+        rules={[
+          {
+            required: true,
+            message: "Invalid phone number!",
+          },
+        ]}
       >
-        <FormItem
-          label="Mother's Name"
-          name="nameOfMother"
-          rules={[
-            {
-              required: true,
-              message: "Invalid  name!",
-            },
-          ]}
-        >
-          <Input />
-        </FormItem>
-        <FormItem
-          label="Phone Number"
-          name="phoneNumberOfMother"
-          rules={[
-            {
-              required: true,
-              message: "Invalid phone number!",
-            },
-          ]}
-        >
-          <Input addonBefore="+233" />
-        </FormItem>
-      </div>
-    </>
+        <Input addonBefore="+233" />
+      </FormItem>
+
+      <FormItem
+        label="Mother's Name"
+        name="nameOfMother"
+        rules={[
+          {
+            required: true,
+            message: "Invalid  name!",
+          },
+        ]}
+      >
+        <Input />
+      </FormItem>
+      <FormItem
+        label="Phone Number"
+        name="phoneNumberOfMother"
+        rules={[
+          {
+            required: true,
+            message: "Invalid phone number!",
+          },
+        ]}
+      >
+        <Input addonBefore="+233" />
+      </FormItem>
+    </BodyContent>
   );
 
   return (
     <Transitions>
       <RegistrationWrapper>
-        <HeadingWrapper>
-          <h3>Add new {userType}</h3>
-          <Button
-            type="text"
-            icon={<HiXCircle color={colors.primary} size={20} />}
-            onClick={() => navigate(-1)}
-          />
-        </HeadingWrapper>
+        <Toolbar
+          title={`Add new ${userType}`}
+          options={[
+            <Button
+              type="text"
+              icon={<HiXCircle color={colors.primary} size={20} />}
+              onClick={() => navigate(-1)}
+            />,
+          ]}
+        />
         <div style={{ width: "100%", padding: "1rem" }}>
           <FormWrapper>
             <Form
@@ -342,11 +322,15 @@ const Registration = () => {
                   <PersonalDetailsSection />
                 </List.Item>
 
+                {userType === "student" && (
+                  <List.Item className="list">
+                    <h4>
+                      <strong>Parent or Guardian Details</strong>
+                    </h4>
+                    <ParentOrGuardianDetailsSection />
+                  </List.Item>
+                )}
                 <List.Item className="list">
-                  <h4>
-                    <strong>Parent or Guardian Details</strong>
-                  </h4>
-                  <ParentOrGuardianDetailsSection />
                   <Form.Item>
                     <Button type="primary" htmlType="submit">
                       Sign up
@@ -388,11 +372,19 @@ export const FormWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    border: none;
   }
 `;
 
-export const FormItem = styled(Form.Item)`
+const FormItem = styled(Form.Item)`
   width: 48%;
+  margin: 10px;
+
+  @media screen and (max-width: 600px) {
+    & {
+      width: 90%;
+    }
+  }
 `;
 
 export default Registration;

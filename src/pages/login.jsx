@@ -10,7 +10,8 @@ import colors from "../shared/utils/colors";
 const Login = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const { setLoginDetails } = useContext(GlobalContext);
+  const { setLoginDetails, setLoginDates, loginDates } =
+    useContext(GlobalContext);
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -20,6 +21,7 @@ const Login = () => {
         username: values.username,
         password: values.password,
       });
+      setLoginDates([...loginDates, new Date()]);
       form.resetFields();
       navigate("/");
     } else {

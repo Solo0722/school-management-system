@@ -8,10 +8,13 @@ const GlobalProvider = ({ children }) => {
     username: null,
     password: null,
   });
+  const [loginDates, setLoginDates] = useLocalStorage("loginDates", []);
 
 
   return (
-    <GlobalContext.Provider value={{ loginDetails, setLoginDetails }}>
+    <GlobalContext.Provider
+      value={{ loginDetails, setLoginDetails, loginDates, setLoginDates }}
+    >
       {children}
     </GlobalContext.Provider>
   );
