@@ -10,13 +10,15 @@ import {
   Divider,
   Form,
   Input,
+  message,
   Select,
   Space,
   Upload,
 } from "antd";
 import moment from "moment";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { updateStudent, updateTeacher } from "../../utils/axios";
 import colors from "../../utils/colors";
 
 const props = {
@@ -26,12 +28,13 @@ const props = {
   headers: {
     authorization: "authorization-text",
   },
+  onChange: (e) => console.log(e),
 };
 
 const ProfileTab = ({
   deleteSpecificUser,
   userType,
-  userDetails: { profile },
+  userDetails: { profile, _id },
 }) => {
   const [form] = Form.useForm();
 
@@ -47,8 +50,35 @@ const ProfileTab = ({
     { label: "French", value: "French" },
   ];
 
-  const onFinish = (values) => {
-    console.log(values);
+  const [loading, setLoading] = useState(false);
+
+  const onFinish = async (values) => {
+    const formData = {
+      profile: {
+        ...values,
+      },
+    };
+
+    console.log(formData);
+    setLoading(true);
+
+    if (userType === "student") {
+      await updateStudent(_id, formData)
+        .then(({ data }) => {
+          console.log(data);
+          message.success("Student updated successfully");
+          setLoading(false);
+        })
+        .catch((err) => console.log(err));
+    } else if (userType === "staff") {
+      await updateTeacher(_id, formData)
+        .then(({ data }) => {
+          console.log(data);
+          message.success("Teacher updated successfully");
+          setLoading(false);
+        })
+        .catch((err) => console.log(err));
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -78,8 +108,8 @@ const ProfileTab = ({
           phoneNumber: profile.phoneNumber,
           grade: profile?.grade,
           dateOfBirth: moment(profile.dateOfBirth),
-          subjects: profile?.subjects,
-          description: profile?.description,
+          subjects: profile?.subjects || [],
+          description: profile.description || "",
           nameOfFather: profile?.nameOfFather,
           nameOfMother: profile?.nameOfMother,
           phoneNumberOfMother: profile?.phoneNumberOfMother,
@@ -301,8 +331,13 @@ const ProfileTab = ({
         )}
         <BodyContent>
           <Form.Item>
-            <Button type="primary" htmlType="submit" icon={<SaveFilled />}>
-              Save
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              icon={<SaveFilled />}
+            >
+              {loading ? "Saving" : "Save"}
             </Button>
             <Button
               type="primary"

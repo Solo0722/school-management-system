@@ -118,12 +118,28 @@ const UserDetails = () => {
                   userType === "student" && {
                     label: `School Fees`,
                     key: "3",
-                    children: <FeesTab />,
+                    children: (
+                      <FeesTab
+                        userDetails={
+                          userType === "student"
+                            ? studentDetails
+                            : teacherDetails
+                        }
+                      />
+                    ),
                   },
                   userType === "staff" && {
                     label: `Salary`,
                     key: "4",
-                    children: <SalaryTab />,
+                    children: (
+                      <SalaryTab
+                        userDetails={
+                          userType === "student"
+                            ? studentDetails
+                            : teacherDetails
+                        }
+                      />
+                    ),
                   },
                 ]}
               />
