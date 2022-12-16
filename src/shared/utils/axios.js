@@ -1,7 +1,8 @@
 import axios from "axios";
 
-const studentsUrl = "http://localhost:5000/students";
-const staffUrl = "http://localhost:5000/staff";
+const studentsUrl =
+  "https://school-management-system-zubo.onrender.com/students";
+const staffUrl = "https://school-management-system-zubo.onrender.com/staff";
 
 export const fetchStudents = () => axios.get(studentsUrl);
 export const createStudent = (newStudent) =>

@@ -23,7 +23,7 @@ const Drawerbar = () => {
       <Button
         type="text"
         onClick={visible ? onClose : showDrawer}
-        icon={<BiMenu size={20} style={{ color: "#fff" }} />}
+        icon={<BiMenu size={20} />}
       />
 
       <Drawer

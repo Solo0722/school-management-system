@@ -57,33 +57,34 @@ const Navbar = () => {
 
 const NavbarWrapper = styled.nav`
   width: 100%;
-  height: 50px;
-  background: ${colors.primary};
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  height: 46px;
+  background: #fff;
+  /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   position: sticky;
   top: 0;
-  padding: 1rem;
+  padding: 0 1rem;
   z-index: 99;
 
   ul {
     list-style-type: none;
+    height: 46px;
   }
 
   li {
     display: inline-block;
+    height: 100%;
     margin-left: 2rem;
     padding: 7px;
-    color: #fff;
     cursor: pointer;
   }
 
   .active {
-    border-bottom: 2px double #fff;
-    font-weight: bold;
+    border-bottom: 1.5px solid ${colors.primary};
   }
 
   .drawer {
